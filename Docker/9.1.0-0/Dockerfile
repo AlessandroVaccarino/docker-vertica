@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-LABEL  alessandrov87 (https://github.com/AlessandroVaccarino)
+LABEL maintainer="alessandrov87 (https://github.com/AlessandroVaccarino)"
 
 ENV VERTICA_VERSION 9.1.0
 
