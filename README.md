@@ -7,10 +7,10 @@ A complete installation of [HP Vertica Community Edition](https://www.vertica.co
 
 To run your first Vertica container, just type:
 
-`docker run -p 5433:5433 -p 5444:5444 -p 5450:5450 -it -d vertica /etc/bootstrap.sh`
+`docker run -p 5433:5433 -p 5444:5444 -p 5450:5450 -it -d alessandrov87/docker-vertica /etc/bootstrap.sh`
 
 If you want to store DB data outside the container, map data path under your desired local folder. Eg:
-`docker run -p 5433:5433 -p 5444:5444 -p 5450:5450 -v $(pwd)/data:/srv/vertica/db -it -d vertica /etc/bootstrap.sh`
+`docker run -p 5433:5433 -p 5444:5444 -p 5450:5450 -v $(pwd)/data:/srv/vertica/db -it -d alessandrov87/docker-vertica /etc/bootstrap.sh`
 
 When boots up, Vertica checks if DB and/or data are available:
 - If DB is available, but there are no data under */srv/vertica/db,* DB is removed and another empty DB is created
