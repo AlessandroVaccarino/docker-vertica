@@ -5,7 +5,7 @@ A complete installation of [HP Vertica Community Edition](https://www.vertica.co
 
 ### Run the container
 
-To run your first Drill container, just type:
+To run your first Vertica container, just type:
 
 `docker run -p 5433:5433 -p 5444:5444 -p 5450:5450 -it -d vertica /etc/bootstrap.sh`
 
