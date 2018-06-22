@@ -6,9 +6,9 @@ echo " -----> Starting and configuring Vertica"
 # Properly shut down Vertica, to avoid inconsistency issues
 function vertica_shut_down() {
   echo " -----> Properly shut down Vertica"
-  /bin/su - dbadmin -c '/opt/vertica/bin/vsql -d database -c "SELECT CLOSE_ALL_SESSIONS();"'
-  /bin/su - dbadmin -c '/opt/vertica/bin/vsql -d database -c "SELECT MAKE_AHM_NOW();"'
-  /bin/su - dbadmin -c '/opt/vertica/bin/admintools -t stop_db -d database -i'
+  su - dbadmin -c '/opt/vertica/bin/vsql -d database -c "SELECT CLOSE_ALL_SESSIONS();"'
+  su - dbadmin -c '/opt/vertica/bin/vsql -d database -c "SELECT MAKE_AHM_NOW();"'
+  su - dbadmin -c '/opt/vertica/bin/admintools -t stop_db -d database -i'
 }
 
 # Intercept closing of container and proper shut down Vertica
@@ -64,6 +64,14 @@ else
 fi
 
 echo " -----> Vertica is now running"
+
+# If requested, configure Vertica to use HDFS
+if [ ! -z "$HDFS" ]; then
+  su - dbadmin -c "/opt/vertica/bin/vsql -d database -c \"ALTER DATABASE database SET HadoopConfDir = '/usr/local/hadoop/etc/hadoop';\""
+  su - dbadmin -c "/opt/vertica/bin/vsql -d database -c \"SELECT CLEAR_HDFS_CACHES();\""
+  su - dbadmin -c "/opt/vertica/bin/vsql -d database -c \"SELECT VERIFY_HADOOP_CONF_DIR();\""
+fi  
+echo " -----> Vertica set to use HDFS"
 
 # Start Vertica Console service
 echo " -----> Starting Vertica Console"
