@@ -10,10 +10,12 @@ To run your first Vertica container, just type:
 `docker run -p 5433:5433 -p 5450:5450 -it -d alessandrov87/docker-vertica /etc/bootstrap.sh`
 
 If you want to store DB data outside the container, map data path under your desired local folder. Eg:
+
 `docker run -p 5433:5433 -p 5450:5450 -v $(pwd)/data:/srv/vertica/db -it -d alessandrov87/docker-vertica /etc/bootstrap.sh`
 
 HP Vertica Docker container is also designed to support integration with [HDFS](https://hadoop.apache.org/), e.g. to enable data loading with Spark. To set HDFS instance specifications, use core-site and hdfs-site under "conf" folder.
 To enable HDFS integration, just set _HDFS_ environment variable. Eg:
+
 `docker run -p 5433:5433 -p 5450:5450 -e HDFS=1 -it -d alessandrov87/docker-vertica /etc/bootstrap.sh`
 
 By default, Vertica'll configure a localhost HDFS instance, like another Docker Container (eg: [Hadoop Sql Stack Docker container](https://github.com/AlessandroVaccarino/docker-sql-stack))
