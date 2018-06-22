@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 LABEL maintainer="alessandrov87 (https://github.com/AlessandroVaccarino)"
 
-ENV VERTICA_VERSION 9.1.0
+ENV VERTICA_VERSION 9.1.0-0
 
 # Install dev tools
 RUN apt-get update -y \
@@ -39,9 +39,12 @@ COPY software/vertica_9.1.0-0_amd64.deb /srv/setup
 # Pre-installation steps
 # Disable Transparent Hugepages
 RUN echo "kernel/mm/transparent_hugepage/enabled = never" >> /etc/sysfs.conf
-# Create Vertica data and Swap folders
+# Create Vertica data folder and HDFS conf folder
 RUN mkdir -p /srv/vertica/db
-RUN mkdir -p /swap
+RUN mkdir -p /usr/local/hadoop/etc/hadoop
+#Copy Hadoop config
+COPY conf/core-site.xml /usr/local/hadoop/etc/hadoop
+COPY conf/hdfs-site.xml /usr/local/hadoop/etc/hadoop
 
 # Install Vertica
 RUN dpkg -i /srv/setup/vertica_9.1.0-0_amd64.deb
@@ -60,6 +63,7 @@ RUN dpkg -i /srv/setup/vertica-console_9.1.0-0_amd64.deb
 # Remove setup files
 RUN rm /srv/setup/vertica-console_9.1.0-0_amd64.deb
 RUN rm /srv/setup/vertica_9.1.0-0_amd64.deb
+RUN rm /vertica-console_9.1.0-0_amd64.deb
 RUN rm -R /srv/setup
 
 # Copy bootstrap.sh file
